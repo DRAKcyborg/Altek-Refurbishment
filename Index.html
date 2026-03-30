@@ -1,0 +1,929 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGH360 Shop • RGH3 Xbox 360 Slims</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap');
+        
+        :root {
+            --tw-color-primary: #00ff00;
+        }
+        
+        .tail-container * {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Press Start 2P', system-ui;
+        }
+
+        .hero-bg {
+            background: linear-gradient(90deg, #111827 0%, #1f2937 100%);
+        }
+
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgb(0 255 0 / 0.2);
+        }
+
+        .modal {
+            animation: modalPop 0.3s ease-out;
+        }
+        
+        @keyframes modalPop {
+            0% { opacity: 0; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .xbox-green {
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body class="tail-container bg-zinc-950 text-white">
+    <!-- NAVBAR -->
+    <nav class="bg-black border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-[#00ff00] rounded flex items-center justify-center text-black font-bold text-2xl rotate-12">X</div>
+                <div>
+                    <span class="logo-font text-2xl tracking-tighter">RGH360</span>
+                    <span class="text-xs text-zinc-400 block -mt-1">SHOP</span>
+                </div>
+            </div>
+
+            <!-- Menu -->
+            <div class="flex items-center gap-8 text-sm font-medium">
+                <button onclick="navigate('home')" 
+                        class="hover:text-[#00ff00] transition-colors flex items-center gap-1">
+                    <span>HOME</span>
+                </button>
+                <button onclick="navigate('shop')" 
+                        class="hover:text-[#00ff00] transition-colors flex items-center gap-1">
+                    <span>SHOP SLIMS</span>
+                </button>
+                
+                <!-- Cart -->
+                <button onclick="showCart()" 
+                        class="flex items-center gap-2 hover:text-[#00ff00] transition-colors relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span>CART</span>
+                    <span id="cart-count" 
+                          class="absolute -top-1 -right-1 bg-[#00ff00] text-black text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                </button>
+
+                <!-- Admin -->
+                <button onclick="openAdminPanel()" 
+                        class="px-6 py-2 bg-white text-black hover:bg-[#00ff00] hover:text-black rounded font-medium flex items-center gap-2 transition-all">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 002.573-1.066c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 00.817 1.194 1.724 1.724 0 01.817 1.194c-.94 1.543.827 3.31 2.37 2.37 1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 01-2.573 1.066 1.724 1.724 0 01-.817 1.194 1.724 1.724 0 01-.817 1.194c-.94 1.543.827 3.31 2.37 2.37 1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 01-2.573 1.066 1.724 1.724 0 01-.817 1.194 1.724 1.724 0 01-.817 1.194c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 01-.817-1.194 1.724 1.724 0 01-.817-1.194c-.94-1.543.827-3.31 2.37-2.37 1.756-.426 1.756-2.924 0-3.35a1.724 1.724 0 01-2.573-1.066 1.724 1.724 0 01-.817-1.194z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    ADMIN
+                </button>
+            </div>
+
+            <div class="flex items-center gap-3 text-xs">
+                <div class="px-3 py-1 bg-emerald-900 text-emerald-400 rounded flex items-center">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse mr-1"></div>
+                    IN STOCK • READY TO SHIP
+                </div>
+                <div class="text-zinc-400">📍 Fort Worth, TX</div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home-page" class="page">
+        <div class="hero-bg h-screen flex items-center relative overflow-hidden">
+            <!-- Hero Content -->
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="inline-flex items-center bg-black/50 text-[#00ff00] text-sm px-4 py-2 rounded-full border border-[#00ff00]/30">
+                        🔥 RGH3 • FULLY MODDED • XBOX 360 SLIMS
+                    </div>
+                    
+                    <h1 class="text-7xl font-bold leading-none tracking-tighter">
+                        BUY RGH3<br>XBOX 360 SLIMS
+                    </h1>
+                    
+                    <p class="text-2xl text-zinc-300 max-w-md">
+                        Pre-modded. Plug &amp; play. Homebrew, backups, emulation, and more. 
+                        Ships fast from Texas.
+                    </p>
+                    
+                    <div class="flex items-center gap-4">
+                        <button onclick="navigate('shop')" 
+                                class="px-10 py-6 bg-[#00ff00] hover:bg-white hover:text-black text-black text-2xl font-bold rounded-xl flex items-center gap-3 transition-all active:scale-95">
+                            SHOP NOW
+                            <span class="text-3xl">→</span>
+                        </button>
+                        
+                        <div class="text-sm leading-tight">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[#00ff00]">★ ★ ★ ★ ★</span>
+                                <span class="font-medium">4.98 average rating</span>
+                            </div>
+                            <div class="text-zinc-400">Over 200 consoles sold</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-8 text-sm">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">⚡</span>
+                            <div>
+                                <div class="font-medium">RGH3 GLITCH</div>
+                                <div class="text-zinc-400 text-xs">Instant boot • Aurora • XEX</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">📼</span>
+                            <div>
+                                <div class="font-medium">BACKUPS &amp; EMULATION</div>
+                                <div class="text-zinc-400 text-xs">Play any game • No bans</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🔧</span>
+                            <div>
+                                <div class="font-medium">CUSTOM NAND</div>
+                                <div class="text-zinc-400 text-xs">Lifetime support included</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visual -->
+                <div class="relative">
+                    <div class="bg-gradient-to-br from-[#00ff00]/10 to-transparent w-full aspect-square rounded-3xl flex items-center justify-center p-8 relative">
+                        <img src="https://picsum.photos/id/1015/800/800" 
+                             alt="RGH3 Xbox 360 Slim"
+                             class="w-full max-w-[420px] drop-shadow-2xl rotate-[-8deg] hover:rotate-0 transition-transform">
+                        <div class="absolute top-8 right-8 bg-black/90 text-[#00ff00] text-xs px-4 py-2 rounded-2xl font-mono flex items-center gap-2 border border-[#00ff00]">
+                            <div class="w-3 h-3 bg-[#00ff00] rounded-full animate-pulse"></div>
+                            RGH3 ACTIVE
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 flex flex-col items-center shadow-2xl">
+                            <div class="text-[#00ff00] text-5xl font-bold">360</div>
+                            <div class="text-xs tracking-[2px] text-zinc-400">SLIM • TRINITY / CORONA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="absolute bottom-10 left-1/2 flex flex-col items-center text-zinc-400 text-xs gap-2">
+                <div>SCROLL FOR MORE</div>
+                <div class="w-px h-12 bg-gradient-to-b from-transparent via-zinc-400 to-transparent"></div>
+            </div>
+        </div>
+
+        <!-- Trust bar -->
+        <div class="bg-zinc-900 py-6 border-b border-zinc-800">
+            <div class="max-w-7xl mx-auto px-6 flex justify-center items-center gap-12 text-sm text-zinc-400">
+                <div class="flex items-center gap-3">
+                    <span>✅</span>
+                    <span>Free shipping over $150</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span>✅</span>
+                    <span>30-day warranty</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span>✅</span>
+                    <span>Texas-based support</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span>✅</span>
+                    <span>PayPal • Credit cards accepted</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span>✅</span>
+                    <span>Next-day shipping available</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SHOP PAGE -->
+    <div id="shop-page" class="page hidden max-w-7xl mx-auto px-6 py-12">
+        <div class="flex justify-between items-baseline mb-10">
+            <div>
+                <h2 class="text-5xl font-bold tracking-tighter">RGH3 Xbox 360 Slims</h2>
+                <p class="text-zinc-400">Choose your console • Select storage below</p>
+            </div>
+            <div class="text-sm text-zinc-400 flex items-center gap-2">
+                <span id="product-count">2</span> consoles available
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="product-modal" onclick="if(event.target === this) hideProductModal()" 
+         class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="modal bg-zinc-900 rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-auto">
+            
+            <div class="flex">
+                <!-- Left: Media -->
+                <div class="w-1/2 p-8 border-r border-zinc-800">
+                    <!-- Main image -->
+                    <div class="aspect-video bg-black rounded-2xl overflow-hidden mb-6">
+                        <img id="modal-main-image" 
+                             class="w-full h-full object-contain">
+                    </div>
+                    
+                    <!-- Thumbnails -->
+                    <div id="modal-thumbnails" class="grid grid-cols-4 gap-3">
+                        <!-- Populated by JS -->
+                    </div>
+                    
+                    <!-- Video -->
+                    <div id="modal-video-container" class="mt-8 hidden">
+                        <p class="text-xs uppercase tracking-widest text-zinc-400 mb-2">Demo video</p>
+                        <div class="aspect-video bg-black rounded-2xl overflow-hidden">
+                            <iframe id="modal-video" 
+                                    width="100%" height="100%" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right: Details -->
+                <div class="w-1/2 p-8 flex flex-col">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h1 id="modal-title" class="text-3xl font-bold"></h1>
+                            <p id="modal-price" class="text-[#00ff00] text-2xl mt-1 font-mono"></p>
+                        </div>
+                        <button onclick="hideProductModal()" 
+                                class="text-zinc-400 hover:text-white text-3xl leading-none">×</button>
+                    </div>
+                    
+                    <p id="modal-description" class="text-zinc-300 mt-6 flex-1"></p>
+                    
+                    <!-- Storage Selection -->
+                    <div class="mt-auto pt-8 border-t border-zinc-700">
+                        <label class="block text-sm font-medium text-zinc-400 mb-3">STORAGE UPGRADE</label>
+                        <select id="storage-select" 
+                                onchange="updateTotalPrice()"
+                                class="w-full bg-zinc-800 border border-zinc-700 text-white rounded-2xl px-5 py-4 text-lg focus:outline-none focus:border-[#00ff00]">
+                            <!-- Populated by JS -->
+                        </select>
+                        
+                        <div class="mt-4 flex justify-between items-center text-sm">
+                            <span class="text-zinc-400">Base console price</span>
+                            <span id="modal-base-price-display" class="font-mono"></span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="text-zinc-400">Selected storage</span>
+                            <span id="modal-storage-display" class="font-mono text-[#00ff00]"></span>
+                        </div>
+                        <div class="h-px bg-zinc-700 my-3"></div>
+                        <div class="flex justify-between text-3xl font-bold">
+                            <span>Total today</span>
+                            <span id="modal-total-price" class="font-mono text-[#00ff00]"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Add to cart -->
+                    <button onclick="addCurrentToCart()" 
+                            class="mt-8 w-full py-6 bg-[#00ff00] hover:bg-white hover:text-black text-black text-2xl font-bold rounded-2xl transition-all active:scale-[0.97]">
+                        ADD TO CART
+                    </button>
+                    
+                    <div class="text-center text-xs text-zinc-400 mt-4 flex items-center justify-center gap-4">
+                        <div>🚚 Ships in 1-2 days</div>
+                        <div>🔒 Secure checkout</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART MODAL -->
+    <div id="cart-modal" onclick="if(event.target === this) hideCart()" 
+         class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="modal bg-zinc-900 rounded-3xl max-w-2xl w-full">
+            <div class="p-8">
+                <div class="flex justify-between mb-6">
+                    <h2 class="text-3xl font-bold">Your Cart</h2>
+                    <button onclick="hideCart()" class="text-4xl text-zinc-400 hover:text-white">×</button>
+                </div>
+                
+                <div id="cart-items" class="space-y-6 max-h-[420px] overflow-auto">
+                    <!-- Populated by JS -->
+                </div>
+                
+                <div class="border-t border-zinc-700 pt-6 mt-6">
+                    <div class="flex justify-between text-xl">
+                        <span class="text-zinc-400">Subtotal</span>
+                        <span id="cart-subtotal" class="font-mono"></span>
+                    </div>
+                    <div class="flex justify-between text-xs text-emerald-400 mt-1">
+                        <span>Shipping</span>
+                        <span class="font-medium">FREE (Texas &amp; contiguous US)</span>
+                    </div>
+                    
+                    <button onclick="checkout()" 
+                            class="w-full mt-8 py-6 text-2xl font-bold bg-[#00ff00] text-black hover:bg-white rounded-3xl">
+                        PROCEED TO CHECKOUT
+                    </button>
+                    
+                    <p class="text-center text-xs text-zinc-400 mt-4">or pay in 4 installments with</p>
+                    <div class="flex justify-center gap-6 text-3xl mt-2">
+                        <span class="font-bold text-[#00ff00]">A</span><span class="font-bold text-[#00ff00]">F</span><span class="font-bold text-[#00ff00]">T</span><span class="font-bold text-[#00ff00]">E</span><span class="font-bold text-[#00ff00]">R</span><span class="font-bold text-[#00ff00]">P</span><span class="font-bold text-[#00ff00]">A</span><span class="font-bold text-[#00ff00]">Y</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-page" class="page hidden max-w-7xl mx-auto px-6 py-12">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-4xl font-bold">Admin Dashboard</h2>
+            <div class="flex items-center gap-4">
+                <button onclick="logoutAdmin()" 
+                        class="px-5 py-2 text-sm border border-red-400 text-red-400 hover:bg-red-400 hover:text-black rounded-2xl">
+                    LOGOUT ADMIN
+                </button>
+                <button onclick="hideAdminPanel()" 
+                        class="px-5 py-2 text-sm border border-zinc-400 hover:bg-zinc-400 hover:text-black rounded-2xl">
+                    CLOSE PANEL
+                </button>
+            </div>
+        </div>
+        
+        <!-- Add new listing form -->
+        <div class="bg-zinc-900 rounded-3xl p-8 mb-12">
+            <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                <span>📤</span> UPLOAD NEW RGH3 LISTING
+            </h3>
+            
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <label class="block text-xs font-medium text-zinc-400 mb-1">CONSOLE TITLE</label>
+                    <input id="new-title" 
+                           type="text" 
+                           placeholder="RGH3 Xbox 360 Slim - Trinity" 
+                           class="w-full bg-zinc-800 border border-zinc-700 focus:border-[#00ff00] rounded-2xl px-5 py-4 text-lg">
+                    
+                    <label class="block text-xs font-medium text-zinc-400 mb-1 mt-6">DESCRIPTION</label>
+                    <textarea id="new-description" rows="4"
+                              class="w-full bg-zinc-800 border border-zinc-700 focus:border-[#00ff00] rounded-3xl px-5 py-4 text-lg resize-none"
+                              placeholder="Fully modded with custom NAND..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-medium text-zinc-400 mb-1">BASE PRICE ($)</label>
+                    <input id="new-base-price" 
+                           type="number" 
+                           step="0.01"
+                           value="169.99"
+                           class="w-full bg-zinc-800 border border-zinc-700 focus:border-[#00ff00] rounded-2xl px-5 py-4 text-lg">
+                    
+                    <label class="block text-xs font-medium text-zinc-400 mb-1 mt-6">IMAGE URLs (comma separated)</label>
+                    <input id="new-images" 
+                           type="text" 
+                           placeholder="https://picsum.photos/id/1015/800/600, https://picsum.photos/id/160/800/600"
+                           class="w-full bg-zinc-800 border border-zinc-700 focus:border-[#00ff00] rounded-2xl px-5 py-4 text-lg">
+                    
+                    <label class="block text-xs font-medium text-zinc-400 mb-1 mt-6">YOUTUBE VIDEO ID (optional)</label>
+                    <div class="flex">
+                        <input id="new-video-id" 
+                               type="text" 
+                               placeholder="dQw4w9wgxcQ"
+                               class="flex-1 bg-zinc-800 border border-zinc-700 focus:border-[#00ff00] rounded-l-2xl px-5 py-4 text-lg">
+                        <div class="bg-zinc-700 text-white px-6 rounded-r-2xl flex items-center text-xs font-mono">youtube.com</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button onclick="uploadNewListing()" 
+                    class="mt-8 px-12 py-6 bg-[#00ff00] text-black text-xl font-bold rounded-3xl hover:bg-white flex items-center gap-3">
+                <span>UPLOAD LISTING TO SHOP</span>
+                <span class="text-3xl">📤</span>
+            </button>
+        </div>
+        
+        <!-- Current listings -->
+        <h3 class="text-xl font-bold mb-6">CURRENT LISTINGS</h3>
+        <div id="admin-listings-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL (shown when not logged in) -->
+    <div id="admin-login-modal" onclick="if(event.target === this) hideAdminLogin()" 
+         class="hidden fixed inset-0 bg-black/90 z-[110] flex items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="modal bg-zinc-900 rounded-3xl w-full max-w-md p-10">
+            <h2 class="text-3xl font-bold mb-2">Admin Login</h2>
+            <p class="text-zinc-400 mb-8">Only you can upload new listings</p>
+            
+            <div class="space-y-6">
+                <div>
+                    <label class="text-xs uppercase text-zinc-400">Username</label>
+                    <input id="admin-username" 
+                           type="text" 
+                           value="admin"
+                           class="w-full mt-2 bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+                </div>
+                <div>
+                    <label class="text-xs uppercase text-zinc-400">Password</label>
+                    <input id="admin-password" 
+                           type="password" 
+                           value="rgh3admin"
+                           class="w-full mt-2 bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+                </div>
+                
+                <button onclick="attemptAdminLogin()" 
+                        class="w-full py-6 bg-white text-black text-2xl font-bold rounded-3xl hover:bg-[#00ff00]">
+                    LOGIN TO ADMIN PANEL
+                </button>
+                
+                <div class="text-center text-xs text-zinc-400">
+                    Demo credentials:<br>
+                    <span class="font-mono">admin / rgh3admin</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-black py-12 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto px-6 text-xs text-zinc-400 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div>© 2026 RGH360 SHOP • ALL RIGHTS RESERVED • FORT WORTH, TEXAS</div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-[#00ff00]">PRIVACY</a>
+                <a href="#" class="hover:text-[#00ff00]">WARRANTY</a>
+                <a href="#" class="hover:text-[#00ff00]">SHIPPING POLICY</a>
+                <a href="#" onclick="alert('Support email: support@rgh360.shop\n\nReply time: usually under 2 hours')" class="hover:text-[#00ff00]">SUPPORT</a>
+            </div>
+            <div class="flex items-center gap-2">
+                BUILT FOR JAYDEN • LIVE DEMO
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script initialization
+        function initializeTailwind() {
+            return {
+                config(userConfig = {}) {
+                    return {
+                        configUser: userConfig,
+                        theme: {
+                            extend: {
+                                colors: {
+                                    primary: "#00ff00"
+                                }
+                            }
+                        }
+                    }
+                },
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // Global variables
+        let products = []
+        let cart = []
+        let currentProduct = null
+        let isAdminLoggedIn = false
+        let STORAGE_OPTIONS = [
+            { name: "500GB HDD", addCost: 0 },
+            { name: "1TB HDD", addCost: 29.99 },
+            { name: "1TB SSD", addCost: 54.99 },
+            { name: "2TB SSD", addCost: 99.99 }
+        ]
+        
+        // Load data from localStorage
+        function loadData() {
+            const savedProducts = localStorage.getItem('rgh360_products')
+            if (savedProducts) {
+                products = JSON.parse(savedProducts)
+            } else {
+                // Default sample listings
+                products = [
+                    {
+                        id: 1,
+                        title: "RGH3 Xbox 360 Slim - Trinity",
+                        description: "Fully RGH3 modded Xbox 360 Slim (Trinity motherboard). Includes custom NAND, Aurora dashboard, and all the latest homebrew tools pre-installed. Perfect condition with HDMI output and 4 USB ports.",
+                        basePrice: 169.99,
+                        images: [
+                            "https://picsum.photos/id/1015/800/600",
+                            "https://picsum.photos/id/160/800/600",
+                            "https://picsum.photos/id/201/800/600"
+                        ],
+                        videoID: null
+                    },
+                    {
+                        id: 2,
+                        title: "RGH3 Xbox 360 Slim - Corona",
+                        description: "Premium RGH3 Xbox 360 Slim on Corona V2 motherboard. Excellent thermal performance. Comes with pre-loaded emulators, XEX loader, and full NAND backup included. Like-new condition.",
+                        basePrice: 189.99,
+                        images: [
+                            "https://picsum.photos/id/29/800/600",
+                            "https://picsum.photos/id/30/800/600"
+                        ],
+                        videoID: "9j5v2N7zQbU" // Real Xbox 360 mod demo video ID (safe placeholder)
+                    }
+                ]
+                saveProducts()
+            }
+            
+            const savedCart = localStorage.getItem('rgh360_cart')
+            if (savedCart) cart = JSON.parse(savedCart)
+            
+            updateCartCount()
+        }
+        
+        function saveProducts() {
+            localStorage.setItem('rgh360_products', JSON.stringify(products))
+        }
+        
+        function saveCart() {
+            localStorage.setItem('rgh360_cart', JSON.stringify(cart))
+        }
+        
+        // Navigation
+        function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'))
+            const target = document.getElementById(page + '-page')
+            if (target) target.classList.remove('hidden')
+            
+            if (page === 'shop') renderProducts()
+        }
+        
+        // Render shop products
+        function renderProducts() {
+            const grid = document.getElementById('products-grid')
+            grid.innerHTML = ''
+            
+            products.forEach(product => {
+                const cardHTML = `
+                <div onclick="showProductModal(${product.id})" class="product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer">
+                    <div class="h-64 bg-black flex items-center justify-center p-6">
+                        <img src="${product.images[0]}" alt="${product.title}" class="max-h-full max-w-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-semibold text-lg">${product.title}</h3>
+                        <p class="text-[#00ff00] font-mono text-xl mt-2">$${product.basePrice}</p>
+                        <div class="mt-4 text-xs flex justify-between items-center text-zinc-400">
+                            <div>RGH3 READY</div>
+                            <div class="flex items-center gap-1">
+                                <span class="inline-block w-2 h-2 bg-[#00ff00] rounded-full animate-pulse"></span>
+                                IN STOCK
+                            </div>
+                        </div>
+                    </div>
+                </div>`
+                grid.innerHTML += cardHTML
+            })
+            
+            // Update count
+            document.getElementById('product-count').textContent = products.length
+        }
+        
+        // Show product modal
+        function showProductModal(id) {
+            currentProduct = products.find(p => p.id === id)
+            if (!currentProduct) return
+            
+            // Fill modal
+            document.getElementById('modal-title').textContent = currentProduct.title
+            document.getElementById('modal-description').innerHTML = currentProduct.description.replace(/\n/g, '<br>')
+            document.getElementById('modal-base-price-display').textContent = `$${currentProduct.basePrice}`
+            
+            // Main image
+            document.getElementById('modal-main-image').src = currentProduct.images[0]
+            
+            // Thumbnails
+            const thumbsContainer = document.getElementById('modal-thumbnails')
+            thumbsContainer.innerHTML = ''
+            currentProduct.images.forEach((url, index) => {
+                const thumb = document.createElement('div')
+                thumb.className = `aspect-video bg-black rounded-2xl overflow-hidden cursor-pointer border-2 ${index === 0 ? 'border-[#00ff00]' : 'border-transparent'}`
+                thumb.innerHTML = `<img src="${url}" class="w-full h-full object-cover">`
+                thumb.onclick = () => {
+                    document.getElementById('modal-main-image').src = url
+                    // Reset borders
+                    Array.from(thumbsContainer.children).forEach(t => t.classList.remove('border-[#00ff00]'))
+                    thumb.classList.add('border-[#00ff00]')
+                }
+                thumbsContainer.appendChild(thumb)
+            })
+            
+            // Video
+            const videoContainer = document.getElementById('modal-video-container')
+            const iframe = document.getElementById('modal-video')
+            if (currentProduct.videoID) {
+                videoContainer.classList.remove('hidden')
+                iframe.src = `https://www.youtube.com/embed/${currentProduct.videoID}`
+            } else {
+                videoContainer.classList.add('hidden')
+            }
+            
+            // Populate storage select
+            const select = document.getElementById('storage-select')
+            select.innerHTML = ''
+            STORAGE_OPTIONS.forEach(opt => {
+                const option = document.createElement('option')
+                option.value = opt.addCost
+                option.textContent = `${opt.name} +$${opt.addCost.toFixed(2)}`
+                select.appendChild(option)
+            })
+            
+            // Set initial total
+            updateTotalPrice()
+            
+            // Show modal
+            document.getElementById('product-modal').classList.remove('hidden')
+            document.getElementById('product-modal').classList.add('flex')
+        }
+        
+        function hideProductModal() {
+            const modal = document.getElementById('product-modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+            currentProduct = null
+        }
+        
+        // Update live total price in modal
+        function updateTotalPrice() {
+            if (!currentProduct) return
+            const select = document.getElementById('storage-select')
+            const addCost = parseFloat(select.value) || 0
+            const total = currentProduct.basePrice + addCost
+            
+            document.getElementById('modal-total-price').innerHTML = 
+                `<span class="font-mono">$${total.toFixed(2)}</span>`
+            
+            // Update storage display
+            const selectedOption = STORAGE_OPTIONS.find(o => o.addCost === addCost)
+            document.getElementById('modal-storage-display').textContent = 
+                selectedOption ? `${selectedOption.name} +$${addCost.toFixed(2)}` : ''
+        }
+        
+        // Add current product (with selected storage) to cart
+        function addCurrentToCart() {
+            if (!currentProduct) return
+            
+            const select = document.getElementById('storage-select')
+            const addCost = parseFloat(select.value) || 0
+            const selectedOption = STORAGE_OPTIONS.find(o => o.addCost === addCost)
+            
+            const totalPrice = currentProduct.basePrice + addCost
+            
+            const cartItem = {
+                cartId: Date.now(),
+                productId: currentProduct.id,
+                title: currentProduct.title,
+                basePrice: currentProduct.basePrice,
+                storage: selectedOption ? selectedOption.name : 'No storage upgrade',
+                addCost: addCost,
+                totalPrice: totalPrice
+            }
+            
+            cart.push(cartItem)
+            saveCart()
+            updateCartCount()
+            
+            hideProductModal()
+            
+            // Show confirmation
+            const confirmation = document.createElement('div')
+            confirmation.style.cssText = 'position:fixed; bottom:20px; right:20px; background:#00ff00; color:black; padding:16px 24px; border-radius:9999px; font-weight:700; box-shadow: 0 10px 15px -3px rgb(0 255 0);'
+            confirmation.textContent = '✅ Added to cart!'
+            document.body.appendChild(confirmation)
+            
+            setTimeout(() => confirmation.remove(), 2200)
+            
+            // Optional: auto open cart after add
+            // setTimeout(() => showCart(), 800)
+        }
+        
+        // Cart functions
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length
+        }
+        
+        function showCart() {
+            if (cart.length === 0) {
+                alert("🛒 Your cart is empty!\n\nAdd some RGH3 Xbox 360 Slims first.")
+                return
+            }
+            
+            const container = document.getElementById('cart-items')
+            container.innerHTML = ''
+            
+            let subtotal = 0
+            
+            cart.forEach((item, index) => {
+                subtotal += item.totalPrice
+                
+                const row = document.createElement('div')
+                row.className = 'flex gap-4 border-b border-zinc-700 pb-6 last:border-none last:pb-0'
+                row.innerHTML = `
+                    <div class="flex-1">
+                        <div class="font-semibold">${item.title}</div>
+                        <div class="text-zinc-400 text-sm">${item.storage}</div>
+                        <div class="text-xs text-emerald-400 mt-1">Base $${item.basePrice} + ${item.addCost > 0 ? '$' + item.addCost.toFixed(2) : 'included'}</div>
+                    </div>
+                    <div class="text-right font-mono">
+                        <div class="text-2xl">$${item.totalPrice.toFixed(2)}</div>
+                        <button onclick="removeFromCart(${index});" class="mt-2 text-red-400 text-xs hover:underline">REMOVE</button>
+                    </div>`
+                container.appendChild(row)
+            })
+            
+            document.getElementById('cart-subtotal').innerHTML = `<span class="font-mono">$${subtotal.toFixed(2)}</span>`
+            
+            document.getElementById('cart-modal').classList.remove('hidden')
+            document.getElementById('cart-modal').classList.add('flex')
+        }
+        
+        function hideCart() {
+            const modal = document.getElementById('cart-modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        function removeFromCart(index) {
+            cart.splice(index, 1)
+            saveCart()
+            updateCartCount()
+            showCart() // refresh
+        }
+        
+        function checkout() {
+            hideCart()
+            setTimeout(() => {
+                const total = cart.reduce((sum, item) => sum + item.totalPrice, 0)
+                alert(`🎉 THANK YOU!\n\nYour order of $${total.toFixed(2)} has been placed.\n\n(🔥 This is a demo – in production this would go to a real checkout page.)\n\nOrder confirmation sent to your email.`)
+                cart = []
+                saveCart()
+                updateCartCount()
+            }, 400)
+        }
+        
+        // ADMIN FUNCTIONS
+        function openAdminPanel() {
+            if (isAdminLoggedIn) {
+                showAdminDashboard()
+            } else {
+                document.getElementById('admin-login-modal').classList.remove('hidden')
+                document.getElementById('admin-login-modal').classList.add('flex')
+            }
+        }
+        
+        function hideAdminLogin() {
+            const modal = document.getElementById('admin-login-modal')
+            modal.classList.add('hidden')
+            modal.classList.remove('flex')
+        }
+        
+        function attemptAdminLogin() {
+            const username = document.getElementById('admin-username').value.trim()
+            const password = document.getElementById('admin-password').value.trim()
+            
+            if (username === 'admin' && password === 'rgh3admin') {
+                isAdminLoggedIn = true
+                hideAdminLogin()
+                showAdminDashboard()
+            } else {
+                alert('❌ Wrong credentials.\n\nTry: admin / rgh3admin')
+            }
+        }
+        
+        function showAdminDashboard() {
+            navigate('admin')
+            renderAdminListings()
+        }
+        
+        function hideAdminPanel() {
+            navigate('home')
+            isAdminLoggedIn = false // optional: stay logged for demo
+        }
+        
+        function logoutAdmin() {
+            isAdminLoggedIn = false
+            navigate('home')
+            alert('👋 Logged out of admin panel')
+        }
+        
+        // Render admin listings
+        function renderAdminListings() {
+            const container = document.getElementById('admin-listings-grid')
+            container.innerHTML = ''
+            
+            products.forEach((product, index) => {
+                const html = `
+                <div class="bg-zinc-800 rounded-3xl p-5">
+                    <div class="h-40 bg-black rounded-2xl mb-4 flex items-center justify-center">
+                        <img src="${product.images[0]}" class="max-h-full object-contain">
+                    </div>
+                    <div class="font-semibold">${product.title}</div>
+                    <div class="text-[#00ff00] font-mono">$${product.basePrice}</div>
+                    <div class="text-xs text-zinc-400 line-clamp-2 mt-2">${product.description}</div>
+                    <div class="flex gap-3 mt-6">
+                        <button onclick="deleteListing(${index});" 
+                                class="flex-1 py-3 text-xs border border-red-400 text-red-400 hover:bg-red-400 hover:text-black rounded-2xl">DELETE</button>
+                    </div>
+                </div>`
+                container.innerHTML += html
+            })
+            
+            if (products.length === 0) {
+                container.innerHTML = `<div class="col-span-3 text-center py-12 text-zinc-400">No listings yet. Upload your first one above!</div>`
+            }
+        }
+        
+        // Upload new listing
+        function uploadNewListing() {
+            const title = document.getElementById('new-title').value.trim()
+            const description = document.getElementById('new-description').value.trim()
+            let basePrice = parseFloat(document.getElementById('new-base-price').value)
+            const imagesInput = document.getElementById('new-images').value.trim()
+            const videoID = document.getElementById('new-video-id').value.trim()
+            
+            if (!title || !description || !basePrice || !imagesInput) {
+                alert('Please fill in title, description, price, and at least one image URL.')
+                return
+            }
+            
+            const imageArray = imagesInput.split(',').map(url => url.trim()).filter(Boolean)
+            
+            const newProduct = {
+                id: Date.now(),
+                title: title,
+                description: description,
+                basePrice: basePrice,
+                images: imageArray,
+                videoID: videoID || null
+            }
+            
+            products.unshift(newProduct) // newest first
+            saveProducts()
+            renderAdminListings()
+            renderProducts() // also update shop page
+            
+            // Clear form
+            document.getElementById('new-title').value = ''
+            document.getElementById('new-description').value = ''
+            document.getElementById('new-base-price').value = '169.99'
+            document.getElementById('new-images').value = ''
+            document.getElementById('new-video-id').value = ''
+            
+            alert('✅ New RGH3 Xbox 360 Slim listing uploaded successfully!\n\nIt is now live in the shop.')
+        }
+        
+        function deleteListing(index) {
+            if (confirm('Delete this listing permanently?')) {
+                products.splice(index, 1)
+                saveProducts()
+                renderAdminListings()
+                renderProducts()
+            }
+        }
+        
+        // Main initialization
+        function init() {
+            initializeTailwind()
+            loadData()
+            
+            // Show home page by default
+            document.getElementById('home-page').classList.remove('hidden')
+            
+            console.log('%c✅ RGH360 Shop demo ready! Admin: admin / rgh3admin', 'color:#00ff00; font-family:monospace')
+        }
+        
+        // Start the website
+        window.onload = init
+    </script>
+</body>
+</html>
+```
