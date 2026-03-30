@@ -9,246 +9,497 @@
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         
         :root {
-            --accent-color: #ff2222;
+            --accent: #ff2222;
         }
         
-        .tail-container * {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        
-        .logo-font {
-            font-family: 'Press Start 2P', system-ui;
-        }
-
-        .hero-bg {
-            background: linear-gradient(90deg, #111827 0%, #1f2937 100%);
-        }
-
-        .product-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
+        .accent { color: var(--accent); }
+        .accent-bg { background-color: var(--accent); }
+        .accent-border { border-color: var(--accent); }
         
         .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(255 34 34 / 0.3);
-        }
-
-        .modal {
-            animation: modalPop 0.3s ease-out;
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(255 34 34 / 0.4);
         }
         
-        @keyframes modalPop {
-            0% { opacity: 0; transform: scale(0.95); }
-            100% { opacity: 1; transform: scale(1); }
+        .modal {
+            animation: modalPop 0.3s ease-out forwards;
         }
-
-        .accent-red {
-            color: var(--accent-color);
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
-<body class="tail-container bg-zinc-950 text-white">
+<body class="bg-zinc-950 text-white">
     <!-- NAVBAR -->
     <nav class="bg-black border-b border-zinc-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <!-- New ALTEK Logo -->
-            <div class="flex items-center gap-3">
-                <div class="relative">
-                    <img src="https://i.imgur.com/0zK8vL2.png" 
-                         alt="ALTEK Modding" 
-                         class="h-12 drop-shadow-lg"
-                         onerror="this.src='https://via.placeholder.com/180x60/000000/ff2222?text=ALTEK+MODDING';">
-                </div>
-                <div class="hidden sm:block">
-                    <span class="logo-font text-2xl tracking-tighter text-white">ALTEK</span>
-                    <span class="text-xs text-red-400 block -mt-1 font-medium">MODDING</span>
+            <!-- ALTEK Logo -->
+            <div onclick="navigate('home')" class="flex items-center gap-3 cursor-pointer">
+                <img src="https://cdn.discordapp.com/attachments/1236424895500386385/1488144980412334110/image.jpg?ex=69cbb683&is=69ca6503&hm=2c018641b03d6b88a00380bc62ec478f072f8dc0fc4bf21e65aab69faa4bc113&" 
+                     alt="ALTEK Modding" 
+                     class="h-12 drop-shadow-lg"
+                     onerror="this.outerHTML='<div class=\'h-12 w-48 bg-zinc-900 border border-red-500 flex items-center justify-center text-red-400 font-bold text-xl\'>ALTEK MODDING</div>'">
+                <div>
+                    <span class="text-2xl font-bold tracking-tighter">ALTEK</span>
+                    <span class="text-xs text-red-400 block -mt-1">MODDING</span>
                 </div>
             </div>
 
-            <!-- Menu -->
             <div class="flex items-center gap-8 text-sm font-medium">
-                <button onclick="navigate('home')" 
-                        class="hover:text-red-400 transition-colors">HOME</button>
-                <button onclick="navigate('shop')" 
-                        class="hover:text-red-400 transition-colors">SHOP CONSOLES</button>
+                <button onclick="navigate('home')" class="hover:text-red-400 transition-colors">HOME</button>
+                <button onclick="navigate('shop')" class="hover:text-red-400 transition-colors">SHOP SLIMS</button>
                 
-                <!-- Cart -->
-                <button onclick="showCart()" 
-                        class="flex items-center gap-2 hover:text-red-400 transition-colors relative">
+                <button onclick="showCart()" class="flex items-center gap-2 hover:text-red-400 transition-colors relative">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <span>CART</span>
-                    <span id="cart-count" 
-                          class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
+                    CART
+                    <span id="cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full">0</span>
                 </button>
 
-                <!-- Admin -->
                 <button onclick="openAdminPanel()" 
-                        class="px-6 py-2 bg-white text-black hover:bg-red-500 hover:text-white rounded font-medium flex items-center gap-2 transition-all">
+                        class="px-6 py-2 bg-white text-black hover:bg-red-500 hover:text-white rounded font-medium transition-all">
                     ADMIN
                 </button>
             </div>
 
             <div class="flex items-center gap-3 text-xs">
-                <div class="px-3 py-1 bg-red-900/50 text-red-400 rounded flex items-center border border-red-400/30">
-                    <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse mr-1"></div>
+                <div class="px-4 py-1.5 bg-red-900/30 text-red-400 rounded-full border border-red-500/30 flex items-center">
+                    <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse mr-2"></div>
                     IN STOCK • READY TO SHIP
                 </div>
-                <div class="text-zinc-400">📍 Fort Worth, TX</div>
             </div>
         </div>
     </nav>
 
     <!-- HOME PAGE -->
     <div id="home-page" class="page">
-        <div class="hero-bg h-screen flex items-center relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 grid grid-cols-2 gap-12 items-center">
+        <div class="min-h-screen bg-gradient-to-br from-zinc-900 to-black flex items-center">
+            <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-8">
-                    <div class="inline-flex items-center bg-black/50 text-red-400 text-sm px-4 py-2 rounded-full border border-red-400/30">
+                    <div class="inline-flex items-center bg-zinc-900 text-red-400 text-sm px-5 py-2 rounded-full border border-red-500/30">
                         🔥 RGH3 • FULLY MODDED • XBOX 360 SLIMS
                     </div>
                     
-                    <h1 class="text-7xl font-bold leading-none tracking-tighter">
-                        BUY RGH3<br>XBOX 360 SLIMS
+                    <h1 class="text-6xl md:text-7xl font-bold leading-none tracking-tighter">
+                        RGH3 XBOX 360<br>SLIMS FOR SALE
                     </h1>
                     
-                    <p class="text-2xl text-zinc-300 max-w-md">
-                        Pre-modded. Plug &amp; play. Homebrew, backups, emulation, and more with <strong>FSD</strong>. 
-                        Ships fast from Texas.
+                    <p class="text-xl text-zinc-300 max-w-lg">
+                        Pre-modded with <strong>FSD</strong> (Freestyle Dash). Homebrew, backups, emulation &amp; more.<br>
+                        Fast shipping from Texas.
                     </p>
-                    
-                    <div class="flex items-center gap-4">
-                        <button onclick="navigate('shop')" 
-                                class="px-10 py-6 bg-red-500 hover:bg-white hover:text-black text-black text-2xl font-bold rounded-xl flex items-center gap-3 transition-all active:scale-95">
-                            SHOP NOW
-                            <span class="text-3xl">→</span>
-                        </button>
-                        
-                        <div class="text-sm leading-tight">
-                            <div class="flex items-center gap-2">
-                                <span class="text-red-400">★ ★ ★ ★ ★</span>
-                                <span class="font-medium">4.98 average rating</span>
-                            </div>
-                            <div class="text-zinc-400">Over 200 consoles sold</div>
-                        </div>
-                    </div>
 
-                    <div class="flex items-center gap-8 text-sm">
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">⚡</span>
-                            <div>
-                                <div class="font-medium">RGH3 GLITCH</div>
-                                <div class="text-zinc-400 text-xs">Instant boot • FSD • XEX</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">📼</span>
-                            <div>
-                                <div class="font-medium">BACKUPS &amp; EMULATION</div>
-                                <div class="text-zinc-400 text-xs">Play any game • No bans</div>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-2xl">🔧</span>
-                            <div>
-                                <div class="font-medium">CUSTOM NAND</div>
-                                <div class="text-zinc-400 text-xs">Lifetime support included</div>
-                            </div>
-                        </div>
-                    </div>
+                    <button onclick="navigate('shop')" 
+                            class="px-12 py-6 bg-red-500 hover:bg-red-600 text-black text-2xl font-bold rounded-2xl transition-all active:scale-95">
+                        SHOP NOW →
+                    </button>
                 </div>
 
-                <!-- Hero Visual -->
                 <div class="relative">
-                    <div class="bg-gradient-to-br from-red-500/10 to-transparent w-full aspect-square rounded-3xl flex items-center justify-center p-8 relative">
-                        <img src="https://picsum.photos/id/1015/800/800" 
-                             alt="RGH3 Xbox 360 Slim"
-                             class="w-full max-w-[420px] drop-shadow-2xl rotate-[-8deg] hover:rotate-0 transition-transform">
-                        <div class="absolute top-8 right-8 bg-black/90 text-red-400 text-xs px-4 py-2 rounded-2xl font-mono flex items-center gap-2 border border-red-400">
-                            <div class="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
-                            FSD ACTIVE
-                        </div>
-                        <div class="absolute -bottom-4 -left-4 bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 flex flex-col items-center shadow-2xl">
-                            <div class="text-red-400 text-5xl font-bold">360</div>
-                            <div class="text-xs tracking-[2px] text-zinc-400">SLIM • TRINITY / CORONA</div>
-                        </div>
+                    <img src="https://picsum.photos/id/1015/800/800" 
+                         alt="RGH3 Xbox 360 Slim"
+                         class="rounded-3xl shadow-2xl rotate-[-6deg] hover:rotate-0 transition-transform duration-500">
+                    <div class="absolute top-8 right-8 bg-black/80 text-red-400 px-5 py-2 rounded-2xl text-sm font-mono border border-red-500 flex items-center gap-2">
+                        <div class="w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+                        FSD ACTIVE
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Trust bar -->
-        <div class="bg-zinc-900 py-6 border-b border-zinc-800">
-            <div class="max-w-7xl mx-auto px-6 flex justify-center items-center gap-12 text-sm text-zinc-400">
-                <div class="flex items-center gap-3"><span>✅</span><span>Free shipping over $150</span></div>
-                <div class="flex items-center gap-3"><span>✅</span><span>30-day warranty</span></div>
-                <div class="flex items-center gap-3"><span>✅</span><span>Texas-based support</span></div>
-                <div class="flex items-center gap-3"><span>✅</span><span>PayPal • Credit cards accepted</span></div>
             </div>
         </div>
     </div>
 
-    <!-- SHOP PAGE, Modals, Admin Panel, etc. remain the same as previous version but with red accents -->
+    <!-- SHOP PAGE -->
+    <div id="shop-page" class="page hidden max-w-7xl mx-auto px-6 py-12">
+        <h2 class="text-5xl font-bold mb-2">RGH3 Xbox 360 Slims</h2>
+        <p class="text-zinc-400 mb-10">Select your console and storage upgrade</p>
+        
+        <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- JS populated -->
+        </div>
+    </div>
 
-    <!-- (The rest of the code is identical to the previous version, just with red instead of green) -->
-    <!-- For brevity, I'm showing only the changed parts above. Replace your entire file with the full version below if needed. -->
+    <!-- PRODUCT MODAL -->
+    <div id="product-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div class="modal bg-zinc-900 rounded-3xl max-w-5xl w-full max-h-[92vh] overflow-hidden">
+            <div class="flex flex-col md:flex-row">
+                <!-- Images -->
+                <div class="md:w-1/2 p-8 bg-black">
+                    <img id="modal-main-image" class="w-full rounded-2xl">
+                    <div id="modal-thumbnails" class="grid grid-cols-4 gap-3 mt-6"></div>
+                </div>
+                
+                <!-- Details -->
+                <div class="md:w-1/2 p-8 flex flex-col">
+                    <div class="flex justify-between">
+                        <h1 id="modal-title" class="text-3xl font-bold"></h1>
+                        <button onclick="hideProductModal()" class="text-4xl text-zinc-400 hover:text-white">×</button>
+                    </div>
+                    
+                    <p id="modal-description" class="text-zinc-300 mt-6 flex-1"></p>
+                    
+                    <div class="mt-8">
+                        <label class="block text-sm text-zinc-400 mb-2">STORAGE UPGRADE</label>
+                        <select id="storage-select" onchange="updateTotalPrice()" 
+                                class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 text-lg">
+                        </select>
+                    </div>
+                    
+                    <div class="mt-6 space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">Base Price</span>
+                            <span id="modal-base-price" class="font-mono"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-zinc-400">Storage</span>
+                            <span id="modal-storage-display" class="text-red-400 font-mono"></span>
+                        </div>
+                        <div class="h-px bg-zinc-700 my-3"></div>
+                        <div class="flex justify-between text-3xl font-bold">
+                            <span>Total</span>
+                            <span id="modal-total-price" class="accent"></span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="addCurrentToCart()" 
+                            class="mt-10 w-full py-6 bg-red-500 hover:bg-red-600 text-black text-2xl font-bold rounded-2xl transition-all">
+                        ADD TO CART
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- FULL REST OF THE CODE (same structure, red accents) -->
-    <!-- ... [same shop page, product modal, cart, admin as previous] ... -->
+    <!-- CART MODAL -->
+    <div id="cart-modal" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div class="modal bg-zinc-900 rounded-3xl max-w-xl w-full">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold">Your Cart</h2>
+                    <button onclick="hideCart()" class="text-4xl text-zinc-400 hover:text-white">×</button>
+                </div>
+                
+                <div id="cart-items" class="space-y-6 max-h-[400px] overflow-auto"></div>
+                
+                <div class="border-t border-zinc-700 pt-6 mt-8">
+                    <div class="flex justify-between text-xl">
+                        <span>Subtotal</span>
+                        <span id="cart-subtotal" class="font-mono"></span>
+                    </div>
+                    <button onclick="checkout()" 
+                            class="mt-8 w-full py-6 bg-red-500 text-black text-2xl font-bold rounded-2xl hover:bg-red-600">
+                        PROCEED TO CHECKOUT
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-page" class="page hidden max-w-7xl mx-auto px-6 py-12">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="text-4xl font-bold">Admin Dashboard - ALTEK Modding</h2>
+            <button onclick="hideAdminPanel()" class="px-6 py-3 border border-zinc-400 hover:bg-zinc-800 rounded-xl">Close Panel</button>
+        </div>
+        
+        <div class="bg-zinc-900 rounded-3xl p-8 mb-10">
+            <h3 class="text-2xl font-bold mb-6">Upload New RGH3 Console</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <input id="new-title" type="text" placeholder="Console Title" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 mb-4">
+                    <textarea id="new-description" rows="5" placeholder="Description (include FSD)" 
+                              class="w-full bg-zinc-800 border border-zinc-700 rounded-3xl px-5 py-4"></textarea>
+                </div>
+                <div>
+                    <input id="new-base-price" type="number" value="169.99" step="0.01" 
+                           class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 mb-4">
+                    <input id="new-images" type="text" placeholder="Image URLs (comma separated)" 
+                           class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4 mb-4">
+                    <input id="new-video-id" type="text" placeholder="YouTube Video ID (optional)" 
+                           class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-5 py-4">
+                </div>
+            </div>
+            <button onclick="uploadNewListing()" 
+                    class="mt-6 px-10 py-5 bg-red-500 text-black font-bold rounded-2xl hover:bg-red-600">
+                UPLOAD LISTING
+            </button>
+        </div>
+        
+        <h3 class="text-xl font-bold mb-4">Current Listings</h3>
+        <div id="admin-listings-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+    </div>
 
     <script>
-        // Same JavaScript as before, just update colors where needed
-        let products = []
-        let cart = []
-        let currentProduct = null
-        let isAdminLoggedIn = false
-        let STORAGE_OPTIONS = [
+        let products = [];
+        let cart = [];
+        let currentProduct = null;
+        let isAdminLoggedIn = false;
+
+        const STORAGE_OPTIONS = [
             { name: "500GB HDD", addCost: 0 },
             { name: "1TB HDD", addCost: 29.99 },
             { name: "1TB SSD", addCost: 54.99 },
             { name: "2TB SSD", addCost: 99.99 }
-        ]
+        ];
+
+        function saveProducts() { localStorage.setItem('altek_products', JSON.stringify(products)); }
+        function saveCart() { localStorage.setItem('altek_cart', JSON.stringify(cart)); }
 
         function loadData() {
-            const savedProducts = localStorage.getItem('rgh360_products')
-            if (savedProducts) {
-                products = JSON.parse(savedProducts)
-            } else {
-                products = [
-                    {
-                        id: 1,
-                        title: "RGH3 Xbox 360 Slim - Trinity",
-                        description: "Fully RGH3 modded Xbox 360 Slim (Trinity motherboard). Includes custom NAND, FSD dashboard, and all the latest homebrew tools pre-installed.",
-                        basePrice: 129.99,
-                        images: ["https://picsum.photos/id/1015/800/600", "https://picsum.photos/id/160/800/600"],
-                        videoID: null
-                    },
-                    {
-                        id: 2,
-                        title: "RGH3 Xbox 360 Slim - Corona",
-                        description: "Premium RGH3 Xbox 360 Slim on Corona V2 motherboard with FSD dashboard pre-loaded.",
-                        basePrice: 129.99,
-                        images: ["https://picsum.photos/id/29/800/600"],
-                        videoID: "9j5v2N7zQbU"
-                    }
-                ]
-                saveProducts()
+            products = JSON.parse(localStorage.getItem('altek_products')) || [
+                {
+                    id: 1,
+                    title: "RGH3 Xbox 360 Slim - Trinity",
+                    description: "Fully RGH3 modded with FSD (Freestyle Dash) dashboard pre-installed. Custom NAND, homebrew ready.",
+                    basePrice: 169.99,
+                    images: ["https://picsum.photos/id/1015/800/600", "https://picsum.photos/id/160/800/600"],
+                    videoID: null
+                },
+                {
+                    id: 2,
+                    title: "RGH3 Xbox 360 Slim - Corona",
+                    description: "Premium RGH3 Xbox 360 Slim with FSD dashboard. Excellent condition and performance.",
+                    basePrice: 189.99,
+                    images: ["https://picsum.photos/id/29/800/600"],
+                    videoID: null
+                }
+            ];
+            cart = JSON.parse(localStorage.getItem('altek_cart')) || [];
+            saveProducts();
+        }
+
+        function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.add('hidden'));
+            document.getElementById(page + '-page').classList.remove('hidden');
+            if (page === 'shop') renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            products.forEach(p => {
+                const div = document.createElement('div');
+                div.className = "product-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden cursor-pointer";
+                div.innerHTML = `
+                    <div class="h-64 bg-black flex items-center justify-center p-8">
+                        <img src="${p.images[0]}" class="max-h-full object-contain">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-bold text-lg">${p.title}</h3>
+                        <p class="text-red-400 text-2xl font-mono mt-2">$${p.basePrice}</p>
+                        <div class="mt-4 text-xs text-zinc-400">FSD READY • IN STOCK</div>
+                    </div>
+                `;
+                div.onclick = () => showProductModal(p.id);
+                grid.appendChild(div);
+            });
+        }
+
+        function showProductModal(id) {
+            currentProduct = products.find(p => p.id === id);
+            if (!currentProduct) return;
+
+            document.getElementById('modal-title').textContent = currentProduct.title;
+            document.getElementById('modal-description').textContent = currentProduct.description;
+            document.getElementById('modal-base-price').textContent = '$' + currentProduct.basePrice;
+            document.getElementById('modal-main-image').src = currentProduct.images[0];
+
+            // Thumbnails
+            const thumbs = document.getElementById('modal-thumbnails');
+            thumbs.innerHTML = '';
+            currentProduct.images.forEach(url => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.className = "rounded-xl cursor-pointer border-2 border-transparent hover:border-red-400";
+                img.onclick = () => document.getElementById('modal-main-image').src = url;
+                thumbs.appendChild(img);
+            });
+
+            // Storage select
+            const select = document.getElementById('storage-select');
+            select.innerHTML = '';
+            STORAGE_OPTIONS.forEach(opt => {
+                const option = document.createElement('option');
+                option.value = opt.addCost;
+                option.textContent = `${opt.name} +$${opt.addCost}`;
+                select.appendChild(option);
+            });
+
+            updateTotalPrice();
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function hideProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function updateTotalPrice() {
+            const addCost = parseFloat(document.getElementById('storage-select').value) || 0;
+            const total = currentProduct.basePrice + addCost;
+            document.getElementById('modal-total-price').textContent = '$' + total.toFixed(2);
+            document.getElementById('modal-storage-display').textContent = '+' + addCost.toFixed(2);
+        }
+
+        function addCurrentToCart() {
+            const addCost = parseFloat(document.getElementById('storage-select').value) || 0;
+            const totalPrice = currentProduct.basePrice + addCost;
+
+            cart.push({
+                id: Date.now(),
+                title: currentProduct.title,
+                basePrice: currentProduct.basePrice,
+                storage: STORAGE_OPTIONS.find(o => o.addCost === addCost)?.name || "500GB HDD",
+                addCost: addCost,
+                totalPrice: totalPrice
+            });
+
+            saveCart();
+            updateCartCount();
+            hideProductModal();
+            
+            const msg = document.createElement('div');
+            msg.style.cssText = 'position:fixed;bottom:30px;right:30px;background:#ff2222;color:white;padding:16px 24px;border-radius:9999px;font-weight:700;';
+            msg.textContent = 'Added to cart!';
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 2000);
+        }
+
+        function updateCartCount() {
+            document.getElementById('cart-count').textContent = cart.length;
+        }
+
+        function showCart() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
             }
-            const savedCart = localStorage.getItem('rgh360_cart')
-            if (savedCart) cart = JSON.parse(savedCart)
-            updateCartCount()
+            const container = document.getElementById('cart-items');
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach((item, i) => {
+                subtotal += item.totalPrice;
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center border-b border-zinc-700 pb-4";
+                row.innerHTML = `
+                    <div>
+                        <div class="font-medium">${item.title}</div>
+                        <div class="text-sm text-zinc-400">${item.storage}</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-mono">$${item.totalPrice.toFixed(2)}</div>
+                        <button onclick="removeFromCart(${i}); event.stopImmediatePropagation();" class="text-red-400 text-xs mt-1">Remove</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+
+            document.getElementById('cart-subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('cart-modal').classList.remove('hidden');
         }
 
-        // ... (rest of JS functions remain the same)
+        function hideCart() {
+            document.getElementById('cart-modal').classList.add('hidden');
+        }
 
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            showCart();
+        }
+
+        function checkout() {
+            hideCart();
+            setTimeout(() => {
+                alert("Thank you for your order! (Demo - Real checkout coming soon)");
+                cart = [];
+                saveCart();
+                updateCartCount();
+            }, 300);
+        }
+
+        // Admin Functions
+        function openAdminPanel() {
+            if (!isAdminLoggedIn) {
+                const pass = prompt("Enter Admin Password:");
+                if (pass === "altek123") {
+                    isAdminLoggedIn = true;
+                } else {
+                    alert("Incorrect password. Try: altek123");
+                    return;
+                }
+            }
+            navigate('admin');
+            renderAdminListings();
+        }
+
+        function hideAdminPanel() {
+            navigate('home');
+        }
+
+        function renderAdminListings() {
+            const container = document.getElementById('admin-listings-grid');
+            container.innerHTML = '';
+            products.forEach((p, i) => {
+                const div = document.createElement('div');
+                div.className = "bg-zinc-900 rounded-3xl p-6";
+                div.innerHTML = `
+                    <img src="${p.images[0]}" class="w-full h-40 object-contain mb-4 rounded-xl">
+                    <div class="font-bold">${p.title}</div>
+                    <div class="text-red-400">$${p.basePrice}</div>
+                    <button onclick="deleteListing(${i});" class="mt-4 text-red-400 text-sm">Delete</button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function uploadNewListing() {
+            const title = document.getElementById('new-title').value.trim();
+            const desc = document.getElementById('new-description').value.trim();
+            const price = parseFloat(document.getElementById('new-base-price').value);
+            const imagesStr = document.getElementById('new-images').value.trim();
+
+            if (!title || !desc || !price) {
+                alert("Please fill title, description and price");
+                return;
+            }
+
+            const newProduct = {
+                id: Date.now(),
+                title: title,
+                description: desc,
+                basePrice: price,
+                images: imagesStr ? imagesStr.split(',').map(u => u.trim()) : ["https://picsum.photos/id/1015/800/600"],
+                videoID: document.getElementById('new-video-id').value.trim() || null
+            };
+
+            products.unshift(newProduct);
+            saveProducts();
+            renderAdminListings();
+            renderProducts();
+            alert("New listing uploaded successfully!");
+        }
+
+        function deleteListing(index) {
+            if (confirm("Delete this listing?")) {
+                products.splice(index, 1);
+                saveProducts();
+                renderAdminListings();
+                renderProducts();
+            }
+        }
+
+        // Initialize
         function init() {
-            loadData()
-            document.getElementById('home-page').classList.remove('hidden')
-            console.log('%c✅ ALTEK Modding RGH360 Shop ready with red accents!', 'color:#ff2222; font-family:monospace')
+            loadData();
+            navigate('home');
+            updateCartCount();
+            console.log("%cALTEK Modding Shop Loaded Successfully", "color:#ff2222; font-weight:bold");
         }
 
-        window.onload = init
+        window.onload = init;
     </script>
 </body>
 </html>
